@@ -4,8 +4,11 @@ import { readFileSync } from 'fs';
 const loadSync = (url, opt) => parse(readFileSync(url), opt);
 
 //const font = loadSync('./test/fonts/Roboto-Black.ttf');
-const font = loadSync('./test/fonts/Roboto-Black.ttf');
-font.download('Roboto-Black-test.ttf')
+let opt = {lowMemory: true};
+const font = loadSync('./test/fonts/Roboto-Black.ttf', {lowMemory: false});
+font.download('Roboto-Black-test-LM.ttf')
+
+
 /*
 const font_static_ttf = loadSync('/Users/ollimeier/Downloads/Vary-Black.ttf');
 console.log('font.names.windows.fontFamily: ', font.names.windows.fontFamily)

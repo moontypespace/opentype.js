@@ -422,6 +422,13 @@ function parseBuffer(buffer, opt={}) {
         font.tables.meta = meta.parse(metaTable.data, metaTable.offset);
         font.metas = font.tables.meta;
     }
+    /*
+    if (glyfTableEntry) {
+        const glyfTable = uncompressTable(data, glyfTableEntry);
+        font.tables.glyf = glyf.parse(glyfTable.data, glyfTable.offset);
+    }
+    */
+    
 
     return font;
 }
