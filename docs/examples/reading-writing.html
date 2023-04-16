@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>OpenType writing</title>
-    <script src="/dist/opentype.js"></script>
+    <!--<script src="/dist/opentype.js"></script>-->
+    <script src="https://opentype.js.org/dist/opentype.js"></script>
     <style>
         body {
             font: 13px Helvetica, arial, freesans, sans-serif;
@@ -43,7 +44,7 @@
 
 <script>
 
-    var inFont, outFont;
+    var inFont, outFont, newFont;
 
     // Create a canvas and adds it to the document.
     // Returns the 2d drawing context.
@@ -60,14 +61,27 @@
         return ctx;
     }
 
-    opentype.load('../fonts/FiraSansOT-Medium.otf', function (err, font) {
+    opentype.load('../fonts/VaryVariable.ttf', function (err, font) {
         if (err) {
             console.log(err);
         }
         inFont = font;
         var buffer = inFont.toArrayBuffer();
         outFont = opentype.parse(buffer);
-        document.getElementById('fontFamilyName').innerHTML = outFont.names.fontFamily.en;
+        console.log('outFont: ', outFont)
+        document.getElementById('fontFamilyName').innerHTML = outFont.names.windows.fontFamily.en//outFont.names.fontFamily.en;
+        
+        console.log('outFont.toTables(): ', outFont.toTables().tables)
+        console.log('outFont.tableRecord: ', outFont.tableRecord)
+        
+        console.log('outFont.tables.os2.usWeightClass: ', outFont.tables.os2.usWeightClass)
+
+        var tables = outFont.toTables().tables
+        for (var i = 0; i < tables.length; i++) {
+            const table = tables[i];
+            console.log('table_tag: ', table['tableName'])
+        }
+        inFont.tables.os2.usWeightClass = 800;
 
         for (var i = 0; i < outFont.glyphs.length; i++) {
             var glyph = outFont.glyphs.get(i);
@@ -79,6 +93,7 @@
             glyph.drawPoints(ctx, x, y, fontSize);
             glyph.drawMetrics(ctx, x, y, fontSize);
         }
+        
     });
 
 
