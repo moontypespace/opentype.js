@@ -5,6 +5,7 @@ import check from '../check.js';
 import glyphset from '../glyphset.js';
 import parse from '../parse.js';
 import Path from '../path.js';
+import table from '../table.js';
 
 // Parse the coordinate data for a glyph.
 function parseGlyphCoordinate(p, flag, previousValue, shortVectorBitMask, sameBitMask) {
@@ -339,4 +340,21 @@ function parseGlyfTable(data, start, loca, font, opt) {
         return parseGlyfTableAll(data, start, loca, font);
 }
 
-export default { getPath, parse: parseGlyfTable};
+
+//function makeGlyfTable(data, start, loca, font, opt) {
+function makeGlyfTable(opt) {
+    const result = new table.Table('glyf', [
+        /*
+        for (let i = 0; i < loca.length - 1; i += 1) {
+            const offset = loca[i];
+            const nextOffset = loca[i + 1];
+            const glyph = new Glyph({index: i, font: font});
+            glyphs.push(parseGlyph(glyph, data, start)
+        }
+        */
+    ], opt);
+
+    return result;
+}
+
+export default { getPath, parse: parseGlyfTable, make: makeGlyfTable};

@@ -4,8 +4,11 @@ import { readFileSync } from 'fs';
 const loadSync = (url, opt) => parse(readFileSync(url), opt);
 
 //const font = loadSync('./test/fonts/Roboto-Black.ttf');
-let opt = {lowMemory: true};
-const font = loadSync('./test/fonts/Roboto-Black.ttf', {lowMemory: false});
+//let opt = {lowMemory: true};
+//const font = loadSync('./test/fonts/Roboto-Black.ttf', {lowMemory: true});
+const font = loadSync('./test/fonts/Roboto-Black.ttf');
+console.log('loadSync font.tables: ', font.tables)
+
 font.download('Roboto-Black-test-LM.ttf')
 
 

@@ -33,6 +33,7 @@ import _name from './tables/name.js';
 import os2 from './tables/os2.js';
 import post from './tables/post.js';
 import meta from './tables/meta.js';
+import prep from './tables/prep.js';
 /**
  * The opentype library.
  * @namespace opentype
@@ -308,8 +309,7 @@ function parseBuffer(buffer, opt={}) {
                 break;
             case 'prep' :
                 table = uncompressTable(data, tableEntry);
-                p = new parse.Parser(table.data, table.offset);
-                font.tables.prep = p.parseByteList(tableEntry.length);
+                font.tables.prep = prep.parse(table.data, table.offset, tableEntry);
                 break;
             case 'glyf':
                 glyfTableEntry = tableEntry;
@@ -349,7 +349,9 @@ function parseBuffer(buffer, opt={}) {
         const shortVersion = indexToLocFormat === 0;
         const locaTable = uncompressTable(data, locaTableEntry);
         const locaOffsets = loca.parse(locaTable.data, locaTable.offset, font.numGlyphs, shortVersion);
+        //font.tables.loca = locaOffsets;
         const glyfTable = uncompressTable(data, glyfTableEntry);
+        //font.tables.glyf = glyf.parse(glyfTable.data, glyfTable.offset);
         font.glyphs = glyf.parse(glyfTable.data, glyfTable.offset, locaOffsets, font, opt);
     } else if (cffTableEntry) {
         const cffTable = uncompressTable(data, cffTableEntry);

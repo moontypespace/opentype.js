@@ -24,6 +24,10 @@ import cpal from './cpal.js';
 import fvar from './fvar.js';
 import stat from './stat.js';
 import avar from './avar.js';
+//import glyf from './glyf.js';
+//import loca from './loca.js';
+import prep from './prep.js';
+
 
 function log2(v) {
     return Math.log(v) / Math.log(2) | 0;
@@ -319,6 +323,14 @@ function fontToSfntTable(font) {
     // we have to handle fvar before name, because it may modify name IDs
     const fvarTable = font.tables.fvar ? fvar.make(font.tables.fvar, font.names) : undefined;
 
+    //let indexToLocFormat = headTable.indexToLocFormat;
+    //const shortVersion = indexToLocFormat === 0;
+    //console.log('font.tables.loca: ', font.tables.loca);
+    //const locaTable = font.tables.loca ? loca.make(font.glyphs.length, shortVersion) : undefined;
+    //const glyfTable = font.tables.glyf ? glyf.make(font.tables.glyf) : undefined;
+    console.log('font.tables.prep: ', font.tables.prep);
+    const prepTable = font.tables.prep ? prep.make(font.tables.prep) : undefined;
+
     const languageTags = [];
     const nameTable = _name.make(names, languageTags);
     const ltagTable = (languageTags.length > 0 ? ltag.make(languageTags) : undefined);
@@ -370,6 +382,20 @@ function fontToSfntTable(font) {
     if (metaTable) {
         tables.push(metaTable);
     }
+    /*
+    if (locaTable) {
+        tables.push(locaTable);
+    }
+    */
+    if (prepTable) {
+        tables.push(prepTable);
+    }
+    
+    /*
+    if (glyfTable) {
+        tables.push(glyfTable);
+    }
+    */
 
     const sfntTable = makeSfntTable(tables);
 
